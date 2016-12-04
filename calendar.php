@@ -1,9 +1,5 @@
 <?php
-/**
-*@author  Xu Ding
-*@email   thedilab@gmail.com
-*@website http://www.StarTutorial.com
-**/
+
 class Calendar {  
      
     /**
@@ -11,6 +7,7 @@ class Calendar {
      */
     public function __construct(){     
         $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
+        $this->_connect();
     }
      
     /********************* PROPERTY ********************/  
@@ -27,6 +24,8 @@ class Calendar {
     private $daysInMonth=0;
      
     private $naviHref= null;
+    
+    private $rez = [];
      
     /********************* PUBLIC **********************/  
         
@@ -93,6 +92,38 @@ class Calendar {
     }
      
     /********************* PRIVATE **********************/ 
+    
+    private function _kolor($data){
+        if ($data == ""){
+            return "szary";
+        }
+        foreach($this->rez as $obj){
+            $id = $obj['data'];
+            if($id == $data){
+                return "czerwony";
+            }
+        }
+        return "zielony";
+    }
+    
+    private function _connect(){
+        require 'connect.php';
+        $polaczenie = @new mysqli($host,$user,$password,$db_name);
+
+        if($polaczenie -> connect_errno != 0)
+        {
+            echo "Error: ".$polaczenie->connect_errno;
+        }
+        else{
+            $rezerwacje = $polaczenie->query("SELECT * FROM rezerwacje");
+
+            while($row = $rezerwacje->fetch_assoc()){
+                $this->rez[]=$row;
+            }
+            $polaczenie->close();  
+        }
+    }
+    
     /**
     * create the li element for ul
     */
@@ -125,7 +156,7 @@ class Calendar {
         }
              
          
-        return '<li onclick="red()" id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).
+        return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).$this->_kolor($this->currentDate)." ".
                 ($cellContent==null?'mask':'').'">'.$cellContent.'</li>';
     }
      
