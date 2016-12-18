@@ -88,20 +88,66 @@ class Calendar {
                         $content.='</div>';
                  
         $content.='</div>';
+        $content.= $this-> _createTable($month);
         return $content;   
     }
      
     /********************* PRIVATE **********************/ 
     
+    private function _createTable($curr_month){
+        $tresc = "<div>";
+        foreach($this -> rez as $rekord){
+            $mon = date("m" , strtotime($rekord['data']));
+            if($mon == $curr_month){
+                $tresc .= $mon."<br><br>";
+            }
+            
+        }
+        
+        $tresc .= "</div>";
+        return $tresc;
+    }
     private function _kolor($data){
         if ($data == ""){
             return "szary";
         }
+        
+        $tabelka = [false,false,false,false];
+        
         foreach($this->rez as $obj){
             $id = $obj['data'];
             if($id == $data){
-                return "czerwony";
+                switch($obj['godzina']){
+                    case "17":
+                        $tabelka[0] = true;
+                        break;
+                        
+                    case "18":
+                        $tabelka[1] = true;
+                        break;
+                        
+                    case "19":
+                        $tabelka[2] = true;
+                        break;
+                        
+                    case "20":
+                        $tabelka[3] = true;
+                        break;
+                }
             }
+        }
+        $sum = 0;
+        foreach($tabelka as $var){
+            if($var){
+                $sum += 1;
+            }
+        }
+        
+        if ($sum == 4){
+            return "czerwony";
+        }
+        if ($sum < 4 && $sum > 0){
+            return "zolty";
         }
         return "zielony";
     }

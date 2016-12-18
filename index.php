@@ -13,5 +13,6 @@ include 'calendar.php';
 $calendar = new Calendar();
 echo $calendar->show();
 ?>
+<a href="dodaj.php">Dodaj</a>
 </body>
 </html>
