@@ -14,5 +14,11 @@ $calendar = new Calendar();
 echo $calendar->show();
 ?>
 <a href="dodaj.php">Dodaj</a>
+<script>
+    function godziny(){
+        window.alert(document.getElementsByTagName("li"));
+
+    }
+</script>    
 </body>
 </html>

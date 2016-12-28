@@ -30,7 +30,19 @@ session_start();
 
 
 ?>
-<form action="dodaj.php" method="post" id="doda">
+<html>
+<head>
+<!--CSS file (default YUI Sam Skin) -->
+<link rel="stylesheet" type="text/css" href="https://yui-s.yahooapis.com/2.9.0/build/calendar/assets/skins/sam/calendar.css">
+ 
+<!-- Dependencies -->
+<script src="https://yui-s.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
+ 
+<!-- Source file -->
+<script src="https://yui-s.yahooapis.com/2.9.0/build/calendar/calendar-min.js"></script>
+</head>
+<body>
+    <form action="dodaj.php" method="post" id="doda">
     <input type="text" name="data" placeholder="Data">
     <select name="godzina" form="doda">
         <option value="17">17:00-18:00</option>
@@ -42,4 +54,16 @@ session_start();
     <input type="submit" name="dodaj" value="Dodaj">
     
 </form>
+<script>
+	YAHOO.namespace("example.calendar");
+
+	YAHOO.example.calendar.init = function() {
+		YAHOO.example.calendar.cal1 = new YAHOO.widget.Calendar("cal1","cal1Container");
+		YAHOO.example.calendar.cal1.render();
+	}
+
+	YAHOO.util.Event.onDOMReady(YAHOO.example.calendar.init);
+</script>
 <a href="index.php">Powrót</a>
+</body>
+</html>

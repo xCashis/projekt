@@ -95,14 +95,26 @@ class Calendar {
     /********************* PRIVATE **********************/ 
     
     private function _createTable($curr_month){
+        
         $tresc = "<div>";
+        
+        $tresc .= "<table style='border: solid 1px black'>";
+        $tresc .= "<th>Data</th><th>Godzina</th><th>Kto</th>";
         foreach($this -> rez as $rekord){
             $mon = date("m" , strtotime($rekord['data']));
             if($mon == $curr_month){
-                $tresc .= $mon."<br><br>";
+                
+                
+                $tresc .= "<tr id='w-".$rekord['data']. "'>";
+                $tresc .= "<td>".$rekord['data']."</td>";
+                $tresc .= "<td>".$rekord['godzina']."</td>";
+                $tresc .= "<td>".$rekord['kto']."</td>";
+                $tresc .= "</tr>";
+                
             }
-            
         }
+        
+        $tresc .= "</table>";
         
         $tresc .= "</div>";
         return $tresc;
@@ -202,7 +214,7 @@ class Calendar {
         }
              
          
-        return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).$this->_kolor($this->currentDate)." ".
+        return '<li onclick="godziny()" id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).$this->_kolor($this->currentDate)." ".
                 ($cellContent==null?'mask':'').'">'.$cellContent.'</li>';
     }
      
