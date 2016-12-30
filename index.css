@@ -1,0 +1,12 @@
+#kontener{
+    width: 1000px;
+    height: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: indianred;
+}
+#zawartosc{
+    width: 1000px;
+    height: 1000px;
+    background-color: indianred;
+}

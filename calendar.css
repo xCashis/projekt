@@ -132,3 +132,15 @@ div.clear{
 .zolty{
     background-color: yellow;
 }
+div#kontener{
+    width: 1000px;
+    height: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: red;
+}
+div#zawartosc{
+    width: 1000px;
+    height: 1000px;
+    background-color: red;
+}

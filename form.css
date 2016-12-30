@@ -1,0 +1,29 @@
+#kont{
+    width:400px;
+    height:400px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 50px;
+}
+
+#form{
+    height: 150px;
+    padding-top: 20px;
+    background-color: indianred;
+    border: 5px solid darkred;
+}
+
+#stopka{
+    padding: 10px;
+    padding-bottom: 15px;
+    height: 30px;
+    background-color: darkred;
+}
+a{
+    color: indianred;
+    text-decoration: none;
+}
+label{
+    color: darkred;
+}

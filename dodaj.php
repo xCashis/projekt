@@ -1,18 +1,28 @@
 <?php
 session_start();
 
-
-
     if(isset($_POST['dodaj'])){
-            require 'connect.php';
+        require 'connect.php';
+
+            if(sprawdz()){
+//            baza_dodaj();
+            }
+            else{
+                echo "Termin zajęty :(";
+            }
+            
+    }
+
+    function baza_dodaj(){
+        
         $polaczenie = @new mysqli($host,$user,$password,$db_name);
 
          if($polaczenie -> connect_errno != 0)
         {
             echo "Error: ".$polaczenie->connect_errno;
         }
-        else{
-            $stmt = $polaczenie->prepare("INSERT INTO rezerwacje (id, data, godzina, kto) VALUES (NULL, ? , ? , ?)");
+        
+        $stmt = $polaczenie->prepare("INSERT INTO rezerwacje (id, data, godzina, kto) VALUES (NULL, ? , ? , ?)");
             $data = $_POST['data'];
             $kto = $_POST['kto'];
             $godz = $_POST['godzina'];
@@ -22,48 +32,53 @@ session_start();
             }else{
                 echo "Nie dodano";
             }
-        }
-            $polaczenie->close(); 
+        $polaczenie->close(); 
     }
-    
+    function sprawdz(){
+        $data = $_POST['data'];
+        $godz = $_POST['godzina'];
+        
+        $polaczenie = @new mysqli($host,$user,$password,$db_name);
 
+        if($polaczenie -> connect_errno != 0)
+        {
+            echo "Error: ".$polaczenie->connect_errno;
+        }
+        
+        $res = $polaczenie->query("SELECT data, godzina FROM rezerwacje WHERE data LIKE '".$data."' AND godzina LIKE '".$godz);
+        $polaczenie->close();
+        if($res){
+            return false;
+        }
+        return true;
+    }
 
 
 ?>
 <html>
 <head>
-<!--CSS file (default YUI Sam Skin) -->
-<link rel="stylesheet" type="text/css" href="https://yui-s.yahooapis.com/2.9.0/build/calendar/assets/skins/sam/calendar.css">
- 
-<!-- Dependencies -->
-<script src="https://yui-s.yahooapis.com/2.9.0/build/yahoo-dom-event/yahoo-dom-event.js"></script>
- 
-<!-- Source file -->
-<script src="https://yui-s.yahooapis.com/2.9.0/build/calendar/calendar-min.js"></script>
+<link href="form.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-    <form action="dodaj.php" method="post" id="doda">
-    <input type="text" name="data" placeholder="Data">
-    <select name="godzina" form="doda">
-        <option value="17">17:00-18:00</option>
-        <option value="18">18:00-19:00</option>
-        <option value="19">19:00-20:00</option>
-        <option value="20">20:00-21:00</option>
-    </select>
-    <input type="text" name="kto" placeholder="Rezerwujący">
-    <input type="submit" name="dodaj" value="Dodaj">
+    <div id="kont">
+    <div id="form">
+        <form action="dodaj.php" method="post" id="doda">
+            <label>Data: </label><input type="text" name="data" placeholder="rrrr-mm-dd"><br><br>
+            <label>Godzina: </label><select name="godzina" form="doda">
+                <option value="17">17:00-18:00</option>
+                <option value="18">18:00-19:00</option>
+                <option value="19">19:00-20:00</option>
+                <option value="20">20:00-21:00</option>
+            </select><br><br>
+            <label>Rezerwujący: </label><input type="text" name="kto" placeholder="Imie i Nazwisko"><br><br>
+            <input type="submit" name="dodaj" value="Dodaj">
     
-</form>
-<script>
-	YAHOO.namespace("example.calendar");
-
-	YAHOO.example.calendar.init = function() {
-		YAHOO.example.calendar.cal1 = new YAHOO.widget.Calendar("cal1","cal1Container");
-		YAHOO.example.calendar.cal1.render();
-	}
-
-	YAHOO.util.Event.onDOMReady(YAHOO.example.calendar.init);
-</script>
-<a href="index.php">Powrót</a>
+        </form>
+        
+    </div>
+    <div id="stopka">
+        <a href="index.php">Powrót</a>
+    </div>
+    </div>
 </body>
 </html>

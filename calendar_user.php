@@ -1,6 +1,6 @@
 <?php
 
-class Calendar {  
+class CalendarUser {  
      
     /**
      * Constructor
@@ -214,7 +214,7 @@ class Calendar {
         }
              
          
-        return '<li onclick="godziny()" id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).$this->_kolor($this->currentDate)." ".
+        return '<li onclick="godziny(this.id)" id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).$this->_kolor($this->currentDate)." ".
                 ($cellContent==null?'mask':'').'">'.$cellContent.'</li>';
     }
      
