@@ -1,31 +1,29 @@
 <?php
 session_start();
+require 'connect.php';
 
     if(isset($_POST['dodaj'])){
-        require 'connect.php';
-
-            if(sprawdz()){
-//            baza_dodaj();
-            }
-            else{
-                echo "Termin zajęty :(";
-            }
-            
+        baza_dodaj();         
     }
 
     function baza_dodaj(){
-        
         $polaczenie = @new mysqli($host,$user,$password,$db_name);
-
-         if($polaczenie -> connect_errno != 0)
+        if($polaczenie -> connect_errno != 0)
         {
             echo "Error: ".$polaczenie->connect_errno;
         }
         
         $stmt = $polaczenie->prepare("INSERT INTO rezerwacje (id, data, godzina, kto) VALUES (NULL, ? , ? , ?)");
+        if($stmt===false) {
+            echo $polaczenie->error;
+            return;
+        }
             $data = $_POST['data'];
             $kto = $_POST['kto'];
             $godz = $_POST['godzina'];
+        
+            echo $data, $kto, $godz;
+        
             $stmt->bind_param("sss", $data, $godz ,$kto);
             if($stmt->execute()){
                 echo "Dodano użytkownika";
@@ -38,18 +36,38 @@ session_start();
         $data = $_POST['data'];
         $godz = $_POST['godzina'];
         
+        
+        
         $polaczenie = @new mysqli($host,$user,$password,$db_name);
 
+        
+        
         if($polaczenie -> connect_errno != 0)
         {
             echo "Error: ".$polaczenie->connect_errno;
         }
         
-        $res = $polaczenie->query("SELECT data, godzina FROM rezerwacje WHERE data LIKE '".$data."' AND godzina LIKE '".$godz);
+        echo $data . $godz;
+        
+        $res = $polaczenie->query("SELECT data, godzina FROM rezerwacje WHERE godzina LIKE '".$godz."';");
+        
+        if ($result = $polaczenie->query("SELECT * FROM rezerwacje;")) {
+    printf("Select returned %d rows.\n", $result->num_rows);
+
+    /* free result set */
+    $result->close();
+}
+        
+//        echo $res->num_rows;
+        
         $polaczenie->close();
+        
         if($res){
+            echo "false";
+            echo $res;
             return false;
         }
+        echo "true";
         return true;
     }
 

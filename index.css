@@ -3,10 +3,49 @@
     height: 1000px;
     margin-left: auto;
     margin-right: auto;
-    background-color: indianred;
+    
 }
 #zawartosc{
-    width: 1000px;
-    height: 1000px;
-    background-color: indianred;
+    width: 800px;
+    height: 800px;
+    clear:both;
+    float: left;
+    background-color: lightblue;
+}
+#zaloguj{
+    height: 150px;
+    width: 200px;
+    float: left;
+    background-color: gray;
+}
+#naglowek{
+    width: 800px;
+    height: 150px;
+    float:left;
+    background-color: red;
+}
+#menu{
+    width: 200px;
+    height: 800px;
+    float: left;
+    background-color: cadetblue;
+}
+#stopka{
+    clear: both;
+    height: 50px;
+    background-color: cornflowerblue;
+}
+button{
+    height:20px; 
+    width:100px; 
+    margin: -20px -50px; 
+    position:relative;
+    top:50%; 
+    left:50%;
+}
+button a{
+    text-decoration: none;
+}
+#nagl, th, td {
+   border: 1px solid black;
 }

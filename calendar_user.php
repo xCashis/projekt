@@ -88,7 +88,7 @@ class CalendarUser {
                         $content.='</div>';
                  
         $content.='</div>';
-        $content.= $this-> _createTable($month);
+
         return $content;   
     }
      
@@ -214,7 +214,7 @@ class CalendarUser {
         }
              
          
-        return '<li onclick="godziny(this.id)" id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).$this->_kolor($this->currentDate)." ".
+        return '<li id="li-'.$this->currentDate.'" class="'.($cellNumber%7==1?' start ':($cellNumber%7==0?' end ':' ')).$this->_kolor($this->currentDate)." ".
                 ($cellContent==null?'mask':'').'">'.$cellContent.'</li>';
     }
      

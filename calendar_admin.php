@@ -88,22 +88,19 @@ class CalendarAdmin {
                         $content.='</div>';
                  
         $content.='</div>';
-        $content.= $this-> _createTable($month);
         return $content;   
     }
      
     /********************* PRIVATE **********************/ 
     
-    private function _createTable($curr_month){
+    function createTable(){
         
-        $tresc = "<div>";
+        $tresc = "<table id='nagl'>";
+        $tresc .= "<tr><th>Data</th><th>Godzina</th><th>Kto</th></tr>";
         
-        $tresc .= "<table style='border: solid 1px black'>";
-        $tresc .= "<th>Data</th><th>Godzina</th><th>Kto</th>";
         foreach($this -> rez as $rekord){
             $mon = date("m" , strtotime($rekord['data']));
-            if($mon == $curr_month){
-                
+            if($mon == $this -> currentMonth){
                 
                 $tresc .= "<tr id='w-".$rekord['data']. "'>";
                 $tresc .= "<td>".$rekord['data']."</td>";
@@ -116,9 +113,20 @@ class CalendarAdmin {
         
         $tresc .= "</table>";
         
-        $tresc .= "</div>";
         return $tresc;
     }
+    
+    function createMail(){
+        $mail = "<form action='mailto:admin@test.com' method='post' enctype='text/plain' name='kontakt' onsubmit='return validateEmail()'>";
+        $mail .= "Name:<br><input type='text' name='name' required><br>";
+        $mail .= "E-mail:<br><input type='text' name='mail' required><br>";
+        $mail .= "Comment:<br><input type='text' name='comment' size='50' <br><br>";
+        $mail .= "<input type='submit' value='Wyślij'>";
+        $mail .= "<input type='reset' value='Reset'></form>";
+        
+        return $mail;
+    }
+    
     private function _kolor($data){
         if ($data == ""){
             return "szary";
