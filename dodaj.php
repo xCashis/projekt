@@ -1,13 +1,17 @@
 <?php
 session_start();
-require 'connect.php';
 
     if(isset($_POST['dodaj'])){
-        baza_dodaj();         
+        if(sprawdz()) {
+            baza_dodaj();  
+        } else {
+            echo "Termin zajęty!";
+        }
     }
 
     function baza_dodaj(){
-        $polaczenie = @new mysqli($host,$user,$password,$db_name);
+        require 'connect.php';
+        $polaczenie = new mysqli($host,$user,$password,$db_name);
         if($polaczenie -> connect_errno != 0)
         {
             echo "Error: ".$polaczenie->connect_errno;
@@ -22,11 +26,9 @@ require 'connect.php';
             $kto = $_POST['kto'];
             $godz = $_POST['godzina'];
         
-            echo $data, $kto, $godz;
-        
             $stmt->bind_param("sss", $data, $godz ,$kto);
             if($stmt->execute()){
-                echo "Dodano użytkownika";
+                echo "Zarezerwowano termin!";
             }else{
                 echo "Nie dodano";
             }
@@ -36,38 +38,21 @@ require 'connect.php';
         $data = $_POST['data'];
         $godz = $_POST['godzina'];
         
-        
-        
-        $polaczenie = @new mysqli($host,$user,$password,$db_name);
-
-        
+        require 'connect.php';
+        $polaczenie = new mysqli($host,$user,$password,$db_name);
         
         if($polaczenie -> connect_errno != 0)
         {
             echo "Error: ".$polaczenie->connect_errno;
         }
         
-        echo $data . $godz;
-        
-        $res = $polaczenie->query("SELECT data, godzina FROM rezerwacje WHERE godzina LIKE '".$godz."';");
-        
-        if ($result = $polaczenie->query("SELECT * FROM rezerwacje;")) {
-    printf("Select returned %d rows.\n", $result->num_rows);
-
-    /* free result set */
-    $result->close();
-}
-        
-//        echo $res->num_rows;
+        $res = $polaczenie->query("SELECT data, godzina FROM rezerwacje WHERE data LIKE '".$data."' AND godzina LIKE '".$godz."';");
         
         $polaczenie->close();
-        
-        if($res){
-            echo "false";
-            echo $res;
+
+        if($res->num_rows>0){
             return false;
         }
-        echo "true";
         return true;
     }
 
